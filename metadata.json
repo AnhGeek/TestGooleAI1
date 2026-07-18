@@ -1,0 +1,6 @@
+{
+  "name": "Habit Tracker",
+  "description": "A habit tracking app with push notification reminders and a streak counter.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
