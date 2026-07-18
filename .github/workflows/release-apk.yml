@@ -44,9 +44,9 @@ jobs:
             keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
           fi
 
-          # Create a dummy upload key as a fallback so assembleRelease does not fail due to a missing file
+          # Create a dummy upload key with the correct 'upload' alias so assembleRelease does not fail
           if [ ! -f my-upload-key.jks ]; then
-            cp debug.keystore my-upload-key.jks
+            keytool -genkey -v -keystore my-upload-key.jks -storepass android -alias upload -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Release,O=Android,C=US"
           fi
 
       - name: Build APKs
@@ -57,6 +57,9 @@ jobs:
           else
             gradle assembleDebug assembleRelease --stacktrace
           fi
+        env:
+          STORE_PASSWORD: android
+          KEY_PASSWORD: android
 
       - name: Find and Rename APKs
         run: |
